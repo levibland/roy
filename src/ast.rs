@@ -22,4 +22,20 @@ pub enum AstNode {
     List {
         value: Vec<AstNode>,
     },
+    Default,
+}
+
+impl AstNode {
+    pub fn to_kv(&self) -> (String, Self) {
+        match self.clone() {
+            Self::KeyValue { key, value } => (key, *value),
+            _ => unreachable!(),
+        }
+    }
+}
+
+impl Default for AstNode {
+    fn default() -> Self {
+        Self::Default
+    }
 }

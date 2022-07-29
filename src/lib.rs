@@ -1,5 +1,3 @@
-#[macro_use] extern crate logos;
-
 pub mod token;
 pub mod ast;
 pub mod parser;

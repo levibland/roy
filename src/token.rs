@@ -1,6 +1,7 @@
 use logos::{Lexer, Logos};
+use std::fmt;
 
-#[derive(Debug, Clone, Logos)]
+#[derive(Debug, Clone, Logos, PartialEq)]
 pub enum Token {
     #[regex(r"[a-zA-Z_]+", to_string)]
     Identifier(String),
@@ -28,6 +29,25 @@ pub enum Token {
 
     #[error]
     Error,
+}
+
+impl fmt::Display for Token {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::Identifier(s) => write!(f, "{}", s),
+            Self::String(s) => write!(f, "{}", s),
+            Self::Integer(i) => write!(f, "{}", i),
+            Self::Float(n) => write!(f, "{}", n),
+            Self::Comma => write!(f, ","),
+            Self::LBrace => write!(f, "{{"),
+            Self::RBrace => write!(f, "}}"),
+            Self::LBracket => write!(f, "["),
+            Self::RBracket => write!(f, "]"),
+            Self::Colon => write!(f, ":"),
+            Self::Eof => write!(f, "\0"),
+            Self::Error => write!(f, "error"),
+        }
+    }
 }
 
 impl Into<String> for Token {
